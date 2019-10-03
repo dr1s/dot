@@ -1,0 +1,8 @@
+#!/bin/bash
+
+#oh-my-zsh
+curl -fsL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
+
+#SpaceVim
+curl -sLf https://spacevim.org/install.sh | bash
+

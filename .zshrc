@@ -123,6 +123,8 @@ eval "$(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib=$HOME/perl5)"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-source ~/.config/zsh/*.zsh
 
+source ~/.config/zsh/functions.zsh
+source ~/.config/zsh/aliases.zsh
+source ~/.config/zsh/secrets.zsh
 

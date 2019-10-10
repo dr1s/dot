@@ -124,7 +124,7 @@ eval "$(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib=$HOME/perl5)"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 
-[ -f ~/.config/functions.zsh ] && source ~/.config/zsh/functions.zsh
-[ -f ~/.config/aliases.zsh ] && source ~/.config/zsh/aliases.zsh
-[ -f ~/.config/secrets.zsh ] && source ~/.config/zsh/secrets.zsh
+[ -f ~/.config/zsh/functions.zsh ] && source ~/.config/zsh/functions.zsh
+[ -f ~/.config/zsh/faliases.zsh ] && source ~/.config/zsh/aliases.zsh
+[ -f ~/.config/zsh/fsecrets.zsh ] && source ~/.config/zsh/secrets.zsh
 

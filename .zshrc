@@ -69,15 +69,12 @@ ZSH_THEME="risto"
 plugins=(
   git
   osx
-  wd
   pass
   brew
   httpie
   python
   docker
-  jsontools
   pyenv
-  k
   autojump
 )
 

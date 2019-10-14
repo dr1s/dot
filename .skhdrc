@@ -51,7 +51,7 @@ focus, resize, warp < shift - space         :  yabai -m space --rotate 270      
 focus, resize, warp < i                     :  yabai -m space --mirror y-axis             # mirror vertical
 focus, resize, warp < o                     :  yabai -m space --mirror x-axis             # mirror horizontal
 focus, resize, warp < f                     :  yabai -m window --toggle zoom-fullscreen # toggle window native fullscreen
-focus, resize, warp < p                     :  yabai -m window --toggle zoom-parent       # toggle window parent zoom
+focus, resize, warp < d                     :  yabai -m window --toggle zoom-parent       # toggle window parent zoom
 focus, resize, warp < s                     :  yabai -m window --toggle split             # toggle window split type
 focus, resize, warp < g                     :  yabai -m window --toggle float;\
                                                yabai -m window --grid 6:6:1:1:4:4         # Float a centered window

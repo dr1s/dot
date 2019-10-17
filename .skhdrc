@@ -129,4 +129,6 @@ focus < cmd - n : yabai -m space --create && \
                 yabai -m space --focus "${index}"
 
 # destroy desktop
-focus <  cmd - w : yabai -m space --destroy
+focus <  cmd - w : index="$(yabai -m query --spaces --space | jq .index)" && \
+                   yabai -m space --destroy && \
+                   yabai -m space --focus "$(($index-1))"

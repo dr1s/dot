@@ -128,16 +128,17 @@ my-accept-line () {
     envs=""
     venv_dir="$HOME/.pyenv/versions"
     if [ -f "$HOME/.pyenv/shims/$app" ]; then
-      for v in $venv_dir/*; do
-        if [ -f "$v/bin/$app" ]; then
-          envs="$(basename $v)\n$envs"
-        fi
-      done
       if [ ! -f "$venv_dir/$PYENV_VERSION/bin/$app" ]; then
+        versions="$(pyenv versions | tr -d '[[:blank:]]' | grep -E '(^[2-3])|(envs)')"
+        for v in ${=versions}; do
+          if [ -f "$venv_dir/$v/bin/$app" ]; then
+            envs="$(basename $v) (Python $(echo $v | cut -d/ -f1))\n$envs"
+          fi
+        done
         if [ "$(echo $envs | wc -l)" -eq 2 ]; then
-          pyenv shell "$(echo $envs | tr -d '\n')"
+          pyenv shell "$(echo $envs | head -1 | awk '{print $1}')"
         else
-          venv="$(echo $envs | tail -n +1 | fzf --header="Select virtualenv:")"
+          venv="$(echo $envs | head -n -1 | fzf --prompt='Select virtualenv: ' | awk '{print $1}')"
           pyenv shell "$venv"
         fi
       fi

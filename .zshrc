@@ -116,12 +116,34 @@ export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 export PATH="/usr/local/opt/jpeg-turbo/bin:$PATH"
 eval "$(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib=$HOME/perl5)"
 
-#eval "$(pyenv init -)"
-
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
 
 [ -f ~/.config/zsh/functions.zsh ] && source ~/.config/zsh/functions.zsh
 [ -f ~/.config/zsh/aliases.zsh ] && source ~/.config/zsh/aliases.zsh
 [ -f ~/.config/zsh/secrets.zsh ] && source ~/.config/zsh/secrets.zsh
 
+my-accept-line () {
+  if [ -n "$BUFFER" ]; then
+    app=$(echo "$BUFFER" | awk '{print $1}')
+    envs=""
+    venv_dir="$HOME/.pyenv/versions"
+    if [ -f "$HOME/.pyenv/shims/$app" ]; then
+      for v in $venv_dir/*; do
+        if [ -f "$v/bin/$app" ]; then
+          envs="$(basename $v)\n$envs"
+        fi
+      done
+      if [ ! -f "$venv_dir/$PYENV_VERSION/bin/$app" ]; then
+        if [ "$(echo $envs | wc -l)" -eq 2 ]; then
+          echo $envs | wc -l
+          pyenv shell "$(echo $envs | tr -d '\n')"
+        else
+          venv="$(echo $envs | tail -n +1 | fzf --header="Select virtualenv:")"
+          pyenv shell "$venv"
+        fi
+      fi
+    fi
+  fi
+  zle .accept-line
+}
+zle -N accept-line my-accept-line

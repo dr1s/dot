@@ -135,7 +135,6 @@ my-accept-line () {
       done
       if [ ! -f "$venv_dir/$PYENV_VERSION/bin/$app" ]; then
         if [ "$(echo $envs | wc -l)" -eq 2 ]; then
-          echo $envs | wc -l
           pyenv shell "$(echo $envs | tr -d '\n')"
         else
           venv="$(echo $envs | tail -n +1 | fzf --header="Select virtualenv:")"

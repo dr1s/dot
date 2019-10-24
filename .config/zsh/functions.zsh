@@ -8,6 +8,7 @@ Host *.lan
   UseKeychain yes
   AddKeysToAgent yes
   IdentityFile ~/.ssh/id_rsa
+
 Host *.trobz.com
   UseKeychain yes
   AddKeysToAgent yes
@@ -19,9 +20,9 @@ EOF
 }
 
 awx_run() {
-  #python_version="$(pyenv version | cut -d\  -f 1)"
-  #pyenv shell towercli
+  python_version="$(pyenv version | cut -d\  -f 1)"
+  pyenv shell towercli
   tower-cli job launch -J $(tower-cli job_template list --page-size 100 | fzf --no-sort --tac | awk '{print $1}') $@
-  #pyenv shell "${python_version}"
+  pyenv shell "${python_version}"
 }
 

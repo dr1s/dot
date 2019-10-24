@@ -81,15 +81,15 @@ focus < right                               :  yabai -m window --swap east
 focus < return                              :  yabai -m window --swap largest
 
 # send window to monitor and follow focus
-focus < tab                                 :  yabai -m window --display next; yabai -m display --focus next
-focus < shift - tab                         :  yabai -m window --display prev; yabai -m display --focus prev
+#focus < tab                                 :  yabai -m window --display next; yabai -m display --focus next
+#focus < shift - tab                         :  yabai -m window --display prev; yabai -m display --focus prev
 focus < 1                                   :  yabai -m window --display 1; yabai -m display --focus 1
 focus < 2                                   :  yabai -m window --display 2; yabai -m display --focus 2
 focus < 3                                   :  yabai -m window --display 3; yabai -m display --focus 3
 
 # send window to monitor and dont follow focus
-focus < alt - tab                           :  yabai -m window --display next
-focus < alt + shift - tab                   :  yabai -m window --display prev
+#focus < alt - tab                           :  yabai -m window --display next
+#focus < alt + shift - tab                   :  yabai -m window --display prev
 focus < alt - 1                             :  yabai -m window --display 1
 focus < alt - 2                             :  yabai -m window --display 2
 focus < alt - 3                             :  yabai -m window --display 3
@@ -110,6 +110,10 @@ warp < 3                                    :  yabai -m window --space 3
 warp < 4                                    :  yabai -m window --space 4
 warp < 5                                    :  yabai -m window --space 5
 warp < 6                                    :  yabai -m window --space 6
+warp < 7                                    :  yabai -m window --space 7
+warp < 8                                    :  yabai -m window --space 8
+warp < 9                                    :  yabai -m window --space 9
+warp < 0                                    :  yabai -m window --space 10
 
 # increase region size
 resize < left                               :  yabai -m window --resize left:-30:0
@@ -124,11 +128,11 @@ resize < shift - down                       :  yabai -m window --resize top:0:30
 resize < shift - left                       :  yabai -m window --resize right:-30:0
 
 # create desktop and follow focus - uses jq for parsing json (brew install jq)
-focus < cmd - n : yabai -m space --create && \
+warp < cmd - w     : yabai -m space --create && \
                 index="$(yabai -m query --spaces --display | jq 'map(select(."native-fullscreen" == 0))[-1].index')" && \
                 yabai -m space --focus "${index}"
 
 # destroy desktop
-focus <  cmd - w : index="$(yabai -m query --spaces --space | jq .index)" && \
+warp < cmd - n      : index="$(yabai -m query --spaces --space | jq .index)" && \
                    yabai -m space --destroy && \
                    yabai -m space --focus "$(($index-1))"

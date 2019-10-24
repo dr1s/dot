@@ -115,6 +115,7 @@ export PATH="/usr/local/opt/unzip/bin:$PATH"
 export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 export PATH="/usr/local/opt/jpeg-turbo/bin:$PATH"
 eval "$(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib=$HOME/perl5)"
+export PATH="$PATH:$HOME/.emacs.d/bin"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 

@@ -22,7 +22,14 @@ EOF
 awx_run() {
   python_version="$(pyenv version | cut -d\  -f 1)"
   pyenv shell towercli
-  tower-cli job launch -J $(tower-cli job_template list --page-size 100 | fzf --no-sort --tac | awk '{print $1}') $@
+  tower-cli job launch -J $(tower-cli job_template list --page-size 100 | head -n -1 | tail -n +4 | fzf --no-sort --tac | awk '{print $1}') $@
   pyenv shell "${python_version}"
 }
 
+hostvars() {
+  python_version="$(pyenv version | cut -d\  -f 1)"
+  pyenv shell anhoi
+  query="._meta.hostvars[\"$1\"]"
+  anhoi sync --no-nice --no-cache | jq "$query"
+  pyenv shell "${python_version}"
+}

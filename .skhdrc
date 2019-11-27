@@ -128,11 +128,10 @@ resize < shift - down                       :  yabai -m window --resize top:0:30
 resize < shift - left                       :  yabai -m window --resize right:-30:0
 
 # create desktop and follow focus - uses jq for parsing json (brew install jq)
-warp < cmd - w     : yabai -m space --create && \
-                index="$(yabai -m query --spaces --display | jq 'map(select(."native-fullscreen" == 0))[-1].index')" && \
-                yabai -m space --focus "${index}"
-
+warp < n                                    :  yabai -m space --create && \
+                                               index="$(yabai -m query --spaces --display | jq 'map(select(."native-fullscreen" == 0))[-1].index')" && \
+                                               yabai -m space --focus "${index}"
 # destroy desktop
-warp < cmd - n      : index="$(yabai -m query --spaces --space | jq .index)" && \
-                   yabai -m space --destroy && \
-                   yabai -m space --focus "$(($index-1))"
+warp < shift -n                                    :  index="$(yabai -m query --spaces --space | jq .index)" && \
+                                               yabai -m space --destroy && \
+                                               yabai -m space --focus "$(($index-1))"

@@ -10,7 +10,7 @@ function redrawBorder()
             global_border:delete()
         end
         global_border = hs.drawing.rectangle(hs.geometry.rect(top_left['x'], top_left['y'], size['w'], size['h']))
-        global_border:setStrokeColor({["red"]=1,["blue"]=0,["green"]=0,["alpha"]=0.8})
+        global_border:setStrokeColor({["red"]=0.9020,["blue"]=0.1961,["green"]=0.5020,["alpha"]=0.8})
         global_border:setFill(false)
           global_border:setStrokeWidth(2)
         global_border:show()
@@ -36,3 +36,24 @@ function plainInputSourceChange()
   selectKarabinerProfile(isrc)
 end
 hs.keycodes.inputSourceChanged(plainInputSourceChange)
+
+--- hammerspoon config
+hs.autoLaunch(true)
+hs.automaticallyCheckForUpdates(true)
+hs.consoleOnTop(true)
+hs.dockIcon(false)
+hs.menuIcon(false)
+hs.uploadCrashData(false)
+hs.alert.show('Config loaded!')
+
+function reloadConfig()
+    if configFileWatcher ~= nil then
+        configFileWatcher:stop()
+        configFileWatcher = nil
+    end
+
+    hs.reload()
+end
+
+configFileWatcher = hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/init.lua", reloadConfig)
+configFileWatcher:start()

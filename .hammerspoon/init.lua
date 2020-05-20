@@ -12,7 +12,8 @@ function redrawBorder()
         global_border = hs.drawing.rectangle(hs.geometry.rect(top_left['x'], top_left['y'], size['w'], size['h']))
         global_border:setStrokeColor({["red"]=0.9020,["blue"]=0.1961,["green"]=0.5020,["alpha"]=0.8})
         global_border:setFill(false)
-          global_border:setStrokeWidth(2)
+        global_border:setStrokeWidth(2)
+        global_border:setRoundedRectRadii(5,5)
         global_border:show()
     end
 end

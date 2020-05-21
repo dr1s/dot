@@ -73,6 +73,7 @@ function updateMenu(mode)
 end
 
 updateMenu()
+hs.timer.doEvery(60, updateMenu)
 
 hs.urlevent.bind("cmenu", function(eventName, params)
   updateMenu()

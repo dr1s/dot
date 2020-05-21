@@ -38,6 +38,66 @@ function plainInputSourceChange()
 end
 hs.keycodes.inputSourceChanged(plainInputSourceChange)
 
+--- yabai/hammerspoon menu
+
+menu = hs.menubar.new()
+function yabaiSwitchMode(yabai_mode)
+  if yabai_mode == "bsp" then
+    hs.execute("/usr/local/bin/yabai -m space --layout float")
+  else
+    hs.execute("/usr/local/bin/yabai -m space --layout bsp")
+  end
+  updateMenu()
+end
+
+function updateMenu(mode)
+  ytmp = hs.execute("/usr/local/bin/yabai -m query --spaces --space | /usr/local/bin/jq '.type'")
+  yabai_mode = ytmp:gsub('%"', ''):gsub('\n', '')
+  if yabai_mode == '' then
+    menu:setIcon(hs.configdir .. '/assets/x.tiff')
+  else
+    menu:setIcon(hs.configdir .. '/assets/' .. yabai_mode .. '.tiff')
+  end
+  menu:setMenu({
+       { title = 'Yabai', disabled = true },
+       { title = '-' },
+       { title = 'mode: ' .. yabai_mode, fn = function() yabaiSwitchMode(yabai_mode) end },
+       { title = '-' },
+       { title = 'Hammerspoon ' .. hs.processInfo.version, disabled = true },
+       { title = '-' },
+       { title = 'Reload', fn = hs.reload },
+       { title = 'Console...', fn = hs.openConsole },
+       { title = '-' },
+       { title = 'Quit', fn = function() hs.application.get(hs.processInfo.processID):kill() end }
+  })
+end
+
+updateMenu()
+
+hs.urlevent.bind("cmenu", function(eventName, params)
+  updateMenu()
+end)
+--- SKHD mode menu
+
+skhdmenu = hs.menubar.new()
+function updateSkhdMode(mode)
+  if mode ~= nil then
+    skhdmenu:setTitle(mode)
+  else
+    skhdmenu:setTitle("")
+  end
+end
+
+updateSkhdMode()
+
+hs.urlevent.bind("skhd_mode", function(eventName, params)
+  if params["mode"] then
+    updateSkhdMode(params["mode"])
+  else  
+    updateSkhdMode()
+  end
+end)
+
 --- hammerspoon config
 hs.autoLaunch(true)
 hs.automaticallyCheckForUpdates(true)

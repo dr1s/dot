@@ -1,7 +1,12 @@
+json = require "json"
+logger = hs.logger.new('new', 'debug')
+
 --- highlight active window with boarder
 global_border = nil
+borderEnabled = true
 
 function redrawBorder()
+  if borderEnabled then
     win = hs.window.focusedWindow()
     if win ~= nil then
         top_left = win:topLeft()
@@ -15,11 +20,30 @@ function redrawBorder()
         global_border:setStrokeWidth(2)
         global_border:setRoundedRectRadii(5,5)
         global_border:show()
+    else
+      if global_border ~= nil then
+        global_border:delete()
+        global_border = nil
+      end
     end
+  else
+    if global_border ~= nil then
+      global_border:delete()
+        global_border = nil
+    end
+  end
 end
 
 redrawBorder()
 
+hs.urlevent.bind("activeBorder", function(eventName, params)
+    if borderEnabled then
+      borderEnabled = false
+    else
+      borderEnabled = true
+    end
+    redrawBorder()
+end)
 
 allwindows = hs.window.filter.new(nil)
 allwindows:subscribe(hs.window.filter.windowCreated, function () redrawBorder() end)
@@ -40,6 +64,8 @@ hs.keycodes.inputSourceChanged(plainInputSourceChange)
 
 --- yabai/hammerspoon menu
 
+yabai = '/usr/local/bin/yabai '
+
 menu = hs.menubar.new()
 function yabaiSwitchMode(yabai_mode)
   if yabai_mode == "bsp" then
@@ -50,9 +76,12 @@ function yabaiSwitchMode(yabai_mode)
   updateMenu()
 end
 
+
 function updateMenu(mode)
-  ytmp = hs.execute("/usr/local/bin/yabai -m query --spaces --space | /usr/local/bin/jq '.type'")
-  yabai_mode = ytmp:gsub('%"', ''):gsub('\n', '')
+  yjson = hs.execute(yabai .. " -m query --spaces --space")
+  space = json.decode(yjson)
+
+  yabai_mode = space['type']
   if yabai_mode == '' then
     menu:setIcon(hs.configdir .. '/assets/x.tiff')
   else
@@ -73,19 +102,22 @@ function updateMenu(mode)
 end
 
 updateMenu()
-hs.timer.doEvery(60, updateMenu)
+---hs.timer.doEvery(20, updateMenu)
 
 hs.urlevent.bind("cmenu", function(eventName, params)
   updateMenu()
 end)
---- SKHD mode menu
 
+--- SKHD mode menu
+skhd_mode = nil
 skhdmenu = hs.menubar.new()
-function updateSkhdMode(mode)
-  if mode ~= nil then
-    skhdmenu:setTitle(mode)
+function updateSkhdMode()
+  if skhd_mode ~= nil then
+    skhdmenu:setIcon(hs.configdir .. '/assets/' .. skhd_mode .. '.tiff')
+    --skhdmenu:setTitle(mode)
   else
-    skhdmenu:setTitle("")
+    --skhdmenu:setTitle("")
+    skhdmenu:setIcon(hs.configdir .. '/assets/code.tiff')
   end
 end
 
@@ -93,12 +125,44 @@ updateSkhdMode()
 
 hs.urlevent.bind("skhd_mode", function(eventName, params)
   if params["mode"] then
-    updateSkhdMode(params["mode"])
+    skhd_mode = params["mode"]
   else  
-    updateSkhdMode()
+    skhd_mode = nil
   end
+  updateSkhdMode()
 end)
 
+spacesMenu = hs.menubar.new()
+function getActiveSpaces()
+  yjson = hs.execute(yabai .. " -m query --displays")
+  displays = json.decode(yjson)
+  menu_title = ''
+  for i = 1,#displays,1 do
+    dspacetmp = hs.execute(yabai .. ' -m query --spaces --display ' .. i)
+    --logger:d(dspacetmp)
+    dspace = json.decode(dspacetmp)
+    for d = 1,#dspace,1 do
+      if dspace[d]['visible'] == 1 then
+        menu_title = menu_title .. ' [' .. dspace[d]['index'] .. ']'
+      else
+        menu_title = menu_title .. ' ' .. dspace[d]['index']
+      end
+    end
+    if i < #displays then
+      menu_title = menu_title .. ' | '
+    end
+    --menu_title = menu_title .. ' ' .. i
+  end
+  spacesMenu:setTitle(menu_title)
+end
+getActiveSpaces()
+
+spaceWatcher = hs.spaces.watcher.new(getActiveSpaces)
+spaceswindows = hs.window.filter.new(nil)
+spaceswindows:subscribe(hs.window.filter.windowCreated, function () getActiveSpaces(); updateMenu() end)
+spaceswindows:subscribe(hs.window.filter.windowFocused, function () getActiveSpaces(); updateMenu()  end)
+spaceswindows:subscribe(hs.window.filter.windowMoved, function () getActiveSpaces(); updateMenu()  end)
+spaceswindows:subscribe(hs.window.filter.windowUnfocused, function () getActiveSpaces(); updateMenu()  end)
 --- hammerspoon config
 hs.autoLaunch(true)
 hs.automaticallyCheckForUpdates(true)

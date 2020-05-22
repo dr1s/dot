@@ -61,14 +61,12 @@ focus, resize, warp < m                     :  yabai -m space --layout bsp;\
                                                open -g "hammerspoon://cmenu"
 focus, resize, warp < 0x2B                  :  yabai -m space --layout float;\
                                                open -g "hammerspoon://cmenu"
+# Turn on and off border: b
+focus, resize, warp < b                     :  open -g "hammerspoon://activeBorder"
 
 # Turn on and off FFM: .
 focus, resize, warp < 0x2F                  :  yabai -m config focus_follows_mouse          autofocus
 focus, resize, warp < shift - 0x2F          :  yabai -m config focus_follows_mouse          off
-
-# Turn on and off border: /
-focus, resize, warp < b                     :  yabai -m config window_border                on
-focus, resize, warp < shift - b             :  yabai -m config window_border                off
 
 # Toggle gaps/padding
 focus, resize, warp < 0                     :  yabai -m space --toggle padding; yabai -m space --toggle gap

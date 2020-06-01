@@ -19,7 +19,7 @@ hs.autoLaunch(true)
 hs.automaticallyCheckForUpdates(true)
 hs.consoleOnTop(true)
 hs.dockIcon(false)
-hs.menuIcon(false)
+hs.menuIcon(true)
 hs.uploadCrashData(false)
 hs.alert.show('Config loaded!')
 

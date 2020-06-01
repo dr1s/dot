@@ -27,7 +27,6 @@ focus, resize, warp          < r                ; resize
 # apen a new terminal window
 # cmd - return : $HOME/bin/iterm
 cmd - return : "${HOME}"/.bin/open_iTerm2.sh
-cmd + shift - return : emacs
 
 # Pass command to swap desktop to MacOs
 focus, resize, warp < ctrl - left            -> : ;
@@ -68,8 +67,17 @@ focus, resize, warp < b                     :  open -g "hammerspoon://activeBord
 focus, resize, warp < 0x2F                  :  yabai -m config focus_follows_mouse          autofocus
 focus, resize, warp < shift - 0x2F          :  yabai -m config focus_follows_mouse          off
 
-# Toggle gaps/padding
-focus, resize, warp < 0                     :  yabai -m space --toggle padding; yabai -m space --toggle gap
+# create desktop and follow focus - uses jq for parsing json (brew install jq)
+focus, resize, warp < n                     :  yabai -m space --create && \
+                                               index="$(yabai -m query --spaces --display | jq 'map(select(."native-fullscreen" == 0))[-1].index')" && \
+                                               yabai -m space --focus "${index}"
+# destroy desktop
+focus, resize, warp < shift - n             :  index="$(yabai -m query --spaces --space | jq .index)" && \
+                                               yabai -m space --destroy && \
+                                               yabai -m space --focus "$(($index-1))"
+
+# Toggle gaps/padding: v
+focus, resize, warp < v                     :  yabai -m space --toggle padding; yabai -m space --toggle gap
 
 # swap window
 focus < left                                :  yabai -m window --swap west
@@ -79,15 +87,15 @@ focus < right                               :  yabai -m window --swap east
 focus < return                              :  yabai -m window --swap largest
 
 # send window to monitor and follow focus
-#focus < tab                                 :  yabai -m window --display next; yabai -m display --focus next
-#focus < shift - tab                         :  yabai -m window --display prev; yabai -m display --focus prev
+focus < tab                                 :  yabai -m window --display next; yabai -m display --focus next
+focus < shift - tab                         :  yabai -m window --display prev; yabai -m display --focus prev
 focus < 1                                   :  yabai -m window --display 1; yabai -m display --focus 1
 focus < 2                                   :  yabai -m window --display 2; yabai -m display --focus 2
 focus < 3                                   :  yabai -m window --display 3; yabai -m display --focus 3
 
 # send window to monitor and dont follow focus
-#focus < alt - tab                           :  yabai -m window --display next
-#focus < alt + shift - tab                   :  yabai -m window --display prev
+focus < alt - tab                           :  yabai -m window --display next
+focus < alt + shift - tab                   :  yabai -m window --display prev
 focus < alt - 1                             :  yabai -m window --display 1
 focus < alt - 2                             :  yabai -m window --display 2
 focus < alt - 3                             :  yabai -m window --display 3
@@ -125,11 +133,3 @@ resize < shift - up                         :  yabai -m window --resize bottom:0
 resize < shift - down                       :  yabai -m window --resize top:0:30
 resize < shift - left                       :  yabai -m window --resize right:-30:0
 
-# create desktop and follow focus - uses jq for parsing json (brew install jq)
-warp < n                                    :  yabai -m space --create && \
-                                               index="$(yabai -m query --spaces --display | jq 'map(select(."native-fullscreen" == 0))[-1].index')" && \
-                                               yabai -m space --focus "${index}"
-# destroy desktop
-warp < shift -n                                    :  index="$(yabai -m query --spaces --space | jq .index)" && \
-                                               yabai -m space --destroy && \
-                                               yabai -m space --focus "$(($index-1))"

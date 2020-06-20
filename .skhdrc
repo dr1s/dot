@@ -60,12 +60,10 @@ focus, resize, warp < m                     :  yabai -m space --layout bsp;\
                                                open -g "hammerspoon://cmenu"
 focus, resize, warp < 0x2B                  :  yabai -m space --layout float;\
                                                open -g "hammerspoon://cmenu"
-# Turn on and off border: b
-focus, resize, warp < b                     :  open -g "hammerspoon://activeBorder"
 
-# Turn on and off FFM: .
-focus, resize, warp < 0x2F                  :  yabai -m config focus_follows_mouse          autofocus
-focus, resize, warp < shift - 0x2F          :  yabai -m config focus_follows_mouse          off
+# Turn on and off border: b
+focus, resize, warp < b                     : [ "$(yabai -m config window_border)" = "on" ] && yabai -m config window_border off || yabai -m config window_border on 
+
 
 # create desktop and follow focus - uses jq for parsing json (brew install jq)
 focus, resize, warp < n                     :  yabai -m space --create && \

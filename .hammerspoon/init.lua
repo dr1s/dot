@@ -1,5 +1,3 @@
-
-require "border"
 require "yabai"
 require "skhd"
 

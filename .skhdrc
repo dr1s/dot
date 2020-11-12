@@ -37,8 +37,8 @@ default, focus, resize, warp < cmd - left        :  yabai -m window --focus west
   || (yabai -m display --focus last && yabai -m window --focus last)
 default, focus, resize, warp < cmd - right       :  yabai -m window --focus east \
   || (yabai -m display --focus first && yabai -m window --focus first)
-default, focus, resize, warp < cmd - down        :  yabai -m window --focus south
-default, focus, resize, warp < cmd - up          :  yabai -m window --focus north
+default, focus, resize, warp < cmd - down        :  yabai -m window --focus stack.next || yabai -m window --focus south
+default, focus, resize, warp < cmd - up          :  yabai -m window --focus stack.prev || yabai -m window --focus north
 
 # focus monitor cycle around
 default, focus, resize, warp < shift + cmd - left  :  yabai -m display --focus prev \
@@ -54,7 +54,7 @@ focus, resize, warp < s                     :  yabai -m window --toggle split   
 focus, resize, warp < g                     :  yabai -m window --toggle float;\
                                                yabai -m window --grid 6:6:1:1:4:4         # Float a centered window
 focus, resize, warp < q                     :  yabai -m space --balance                   # equalize size of windows
-
+focus, resize, warp < i                     :  yabai -m window --insert stack
 # change layout of desktop: m ,
 focus, resize, warp < m                     :  yabai -m space --layout bsp;\
                                                open -g "hammerspoon://cmenu"
@@ -76,6 +76,12 @@ focus, resize, warp < shift - n             :  index="$(yabai -m query --spaces 
 
 # Toggle gaps/padding: v
 focus, resize, warp < v                     :  yabai -m space --toggle padding; yabai -m space --toggle gap
+
+# stack window
+focus < alt - left  : yabai -m window west --stack $(yabai -m query --windows --window | jq -r '.id')
+focus < alt - right : yabai -m window east --stack $(yabai -m query --windows --window | jq -r '.id')
+focus < alt - down  : yabai -m window south --stack $(yabai -m query --windows --window | jq -r '.id')
+focus < alt - up    : yabai -m window north --stack $(yabai -m query --windows --window | jq -r '.id')
 
 # swap window
 focus < left                                :  yabai -m window --swap west

@@ -26,7 +26,8 @@ focus, resize, warp          < r                ; resize
 # global commands
 # apen a new terminal window
 # cmd - return : $HOME/bin/iterm
-cmd - return : "${HOME}"/.bin/open_iTerm2.sh
+#cmd - return : "${HOME}"/.bin/open_iTerm2.sh
+cmd - return : open -nb io.alacritty
 
 # Pass command to swap desktop to MacOs
 focus, resize, warp < ctrl - left            -> : ;

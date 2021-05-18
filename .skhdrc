@@ -26,8 +26,7 @@ focus, resize, warp          < r                ; resize
 # global commands
 # apen a new terminal window
 # cmd - return : $HOME/bin/iterm
-#cmd - return : "${HOME}"/.bin/open_iTerm2.sh
-cmd - return : open -nb io.alacritty
+cmd - return : "${HOME}"/.bin/open_iTerm2.sh
 
 # Pass command to swap desktop to MacOs
 focus, resize, warp < ctrl - left            -> : ;
@@ -35,9 +34,9 @@ focus, resize, warp < ctrl - right           -> : ;
 
 # focus window left and down cycles, this is dependent on the monitor order beeing correct
 default, focus, resize, warp < cmd - left        :  yabai -m window --focus west \
-  || (yabai -m display --focus last && yabai -m window --focus last)
+  || (yabai -m display --focus first && yabai -m window --focus last)
 default, focus, resize, warp < cmd - right       :  yabai -m window --focus east \
-  || (yabai -m display --focus first && yabai -m window --focus first)
+  || (yabai -m display --focus last && yabai -m window --focus first)
 default, focus, resize, warp < cmd - down        :  yabai -m window --focus stack.next || yabai -m window --focus south
 default, focus, resize, warp < cmd - up          :  yabai -m window --focus stack.prev || yabai -m window --focus north
 

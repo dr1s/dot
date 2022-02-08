@@ -1,6 +1,6 @@
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:/usr/local/bin:$PATH
-
+DISABLE_MAGIC_FUNCTIONS=true
 
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
@@ -66,20 +66,18 @@ ZSH_THEME="risto"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
+
 plugins=(
   git
-  osx
+  macos
   pass
   brew
-  httpie
   python
   docker
-  pyenv
   autojump
+  rust
 )
-
 source $ZSH/oh-my-zsh.sh
-
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
@@ -114,14 +112,24 @@ export PATH="/usr/local/opt/make/libexec/gnubin:$PATH"
 export PATH="/usr/local/opt/unzip/bin:$PATH"
 export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 export PATH="/usr/local/opt/jpeg-turbo/bin:$PATH"
-eval "$(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib=$HOME/perl5)"
 export PATH="$PATH:$HOME/.emacs.d/bin"
+export PATH="/opt/Sencha/Cmd:$PATH"
+
+
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init --path)"
+eval "$(pyenv init -)"
+
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 [ -f ~/.config/zsh/functions.zsh ] && source ~/.config/zsh/functions.zsh
 [ -f ~/.config/zsh/aliases.zsh ] && source ~/.config/zsh/aliases.zsh
 [ -f ~/.config/zsh/secrets.zsh ] && source ~/.config/zsh/secrets.zsh
+[ -f $HOME/.cargo/venv ] && source $HOME/.cargo/env
+
+
 
 my-accept-line () {
   if [ -n "$BUFFER" ]; then
@@ -148,3 +156,13 @@ my-accept-line () {
   zle .accept-line
 }
 zle -N accept-line my-accept-line
+export PATH="/usr/local/sbin:$PATH"
+
+if [ -n "$(ioreg -p IOUSB -w0 | sed 's/[^o]*o //; s/@.*$//' | grep -v '^Root.*' | grep Yubikey)" ]; then
+  export SSH_AUTH_SOCK="/usr/local/var/run/yubikey-agent.sock"
+fi
+export PATH="/Users/drs/.bin/Sencha/Cmd:$PATH"
+
+
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /usr/local/bin/grr grr

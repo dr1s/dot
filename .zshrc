@@ -112,15 +112,13 @@ export PATH="/usr/local/opt/make/libexec/gnubin:$PATH"
 export PATH="/usr/local/opt/unzip/bin:$PATH"
 export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 export PATH="/usr/local/opt/jpeg-turbo/bin:$PATH"
-export PATH="$PATH:$HOME/.emacs.d/bin"
-export PATH="/opt/Sencha/Cmd:$PATH"
-
 
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init --path)"
 eval "$(pyenv init -)"
 
+export PATH="/usr/local/sbin:$PATH"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
@@ -156,13 +154,10 @@ my-accept-line () {
   zle .accept-line
 }
 zle -N accept-line my-accept-line
-export PATH="/usr/local/sbin:$PATH"
 
 if [ -n "$(ioreg -p IOUSB -w0 | sed 's/[^o]*o //; s/@.*$//' | grep -v '^Root.*' | grep Yubikey)" ]; then
   export SSH_AUTH_SOCK="/usr/local/var/run/yubikey-agent.sock"
 fi
-export PATH="/Users/drs/.bin/Sencha/Cmd:$PATH"
-
 
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /usr/local/bin/grr grr

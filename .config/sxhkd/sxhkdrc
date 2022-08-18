@@ -1,0 +1,65 @@
+export STATE="default"
+
+
+# Terminal
+super + Return
+	terminator
+
+# App launcher
+super + space
+	rofi -theme ~/.config/rofi/theme.rasi -show drun
+
+#Window switcher
+super + Tab
+	rofi -theme ~/.config/rofi/theme.rasi -show window
+
+# close window
+super + w
+	bspc node -c
+
+# kill window
+super + q
+	bspc node -k
+
+# focus window and switch monitor
+super + {Left,Right}
+	bspc node -f {west,east} || bspc monitor -f {prev,next}
+super + {Down,Up}
+	bspc node -f {south,north}
+
+# Workspaces
+# prev/next
+ctrl + {Left,Right}
+	bspc desktop -f {prev,next}
+# switch modes
+super + m
+	bspc desktop -l next
+
+
+
+# Resize Mode
+# Windows
+super + d : {Left,Down,Up,Right}
+	n=10; \
+  	{ d1=left;   d2=right;  dx=-$n; dy=0;   \
+ 	, d1=bottom; d2=top;    dx=0;   dy=$n;  \
+  	, d1=top;    d2=bottom; dx=0;   dy=-$n; \
+  	, d1=right;  d2=left;   dx=$n;  dy=0;   \
+  	} \
+	bspc node --resize $d1 $dx $dy || bspc node --resize $d2 $dx $dy
+
+# Toggle gaps
+super + d : v
+	[ $(bspc config window_gap) -eq 0 ] && bspc config window_gap $(grep window_gap $HOME/.config/bspwm/bspwmrc | awk '\{print $4\}') || bspc config window_gap 0
+
+
+# Move mode
+# swap windows
+
+super + s : {Left,Down,Up,Right}
+	bspc node -s {west,south,north,east}
+
+super + s : {1,2,3,4,5,6,7,8,9,0}:
+	bspc node -d {1,2,3,4,5,6,7,8,9,0} -f
+
+

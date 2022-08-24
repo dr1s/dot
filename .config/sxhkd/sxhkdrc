@@ -1,9 +1,7 @@
-export STATE="default"
-
 
 # Terminal
 super + Return
-	terminator
+	alacritty
 
 # App launcher
 super + space

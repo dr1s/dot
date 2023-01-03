@@ -24,7 +24,7 @@ yabai -m config right_padding                20
 yabai -m config window_gap                   20
 
 yabai -m config window_border                on
-yabai -m config window_border_width          1
+yabai -m config window_border_width          2
 yabai -m config active_window_border_color   0xffd19a66
 yabai -m config normal_window_border_color   0xff505050
 
@@ -34,19 +34,28 @@ yabai -m rule --add app="Thunderbird" space=^"email"
 yabai -m space 2 --label messenger
 yabai -m rule --add app="Ferdi" space=^"messenger"
 
-yabai -m space 3 --label browser
-yabai -m rule --add app="Firefox" space=^"browser"
-yabai -m rule --add app="Firefox Developer Edition" space=^"browser"
-yabai -m rule --add app="Google Chrome" space=^"browser"
-yabai -m rule --add app="Safari" space=^"browser"
+yabai -m space 3 --label web
+yabai -m rule --add app="Firefox" space=^"web"
+yabai -m rule --add app="Firefox Developer Edition" space=^"web"
+yabai -m rule --add app="Google Chrome" space=^"web"
+yabai -m rule --add app="Safari" space=^"web"
 
-yabai -m space 4 --label editor
-yabai -m rule --add app="Atom" space=^"editor"
+yabai -m space 4 --label code
+yabai -m rule --add app="Atom" space=^"code"
 
+yabai -m space 8 --label vcs
+yabai -m config --space 8 window_border off
+yabai -m config --space 8 layout float
+yabai -m rule --add app="Fork" space=^"vcs"
 
+yabai -m space 9 --label game
+yabai -m config --space 9 window_border off
+yabai -m config --space 9 layout float
+yabai -m rule --add app="Last Fortress" space="^game"
 
 yabai -m space 10 --label media
 yabai -m rule --add app="Plex" space=^"media"
+yabai -m rule --add app="PlexMobile" space=^"media"
 yabai -m rule --add app="VLC" space=^"media"
 yabai -m rule --add app="Spotify" space=^"media"
 

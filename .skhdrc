@@ -1,139 +1,110 @@
 # the default mode
-:: default : echo "" > /tmp/current_skhd_mode;\
-             open -g "hammerspoon://skhd_mode"
+:: default : echo "" > /tmp/current_skhd_mode; \
+             open -g "hammerspoon://skhd_mode";
 
-# a mode for focus operations
-:: focus @ : echo "focus" > /tmp/current_skhd_mode;\
+# a mode for move operations
+:: move @ : echo "focus" > /tmp/current_skhd_mode; \
              open -g "hammerspoon://skhd_mode?mode=focus"
 
-# a mode for warp operations
-:: warp @ : echo "warp" > /tmp/current_skhd_mode;\
-            open -g "hammerspoon://skhd_mode?mode=warp"
-
 # a mode for resizing operations
-:: resize @ : echo "resize" > /tmp/current_skhd_mode;\
+:: resize @ : echo "resize" > /tmp/current_skhd_mode; \
               open -g "hammerspoon://skhd_mode?mode=resize"
 
+# Modes (default, resize, move/focus)
 # enter and exit modes
-default                      < shift - space      ; focus
-focus                        < shift - space      ; resize
-resize                       < shift - space      ; warp
-warp                         < shift - space      ; default
-focus, resize, warp          < escape           ; default
-focus, resize, warp          < w                ; warp
-focus, resize, warp          < r                ; resize
+default                 < alt - s			      ; move
+default                 < alt - d			      ; resize
+move, resize            < escape			      ; default
 
-# global commands
 # apen a new terminal window
-# cmd - return : $HOME/bin/iterm
-cmd - return : "${HOME}"/.bin/open_iTerm2.sh
-
-# Pass command to swap desktop to MacOs
-focus, resize, warp < ctrl - left            -> : ;
-focus, resize, warp < ctrl - right           -> : ;
+default 		            < cmd - return			: [ -z "$(pgrep alacritty)" ] \
+									  && /Applications/Alacritty.app/Contents/MacOS/alacritty \
+									  || /Applications/Alacritty.app/Contents/MacOS/alacritty msg create-window
 
 # focus window left and down cycles, this is dependent on the monitor order beeing correct
-default, focus, resize, warp < cmd - left        :  yabai -m window --focus west \
-  || (yabai -m display --focus last && yabai -m window --focus last)
-default, focus, resize, warp < cmd - right       :  yabai -m window --focus east \
-  || (yabai -m display --focus first && yabai -m window --focus first)
-default, focus, resize, warp < cmd - down        :  yabai -m window --focus stack.next || yabai -m window --focus south
-default, focus, resize, warp < cmd - up          :  yabai -m window --focus stack.prev || yabai -m window --focus north
+default                 < cmd - left    		: yabai -m window --focus west \
+                                              || (yabai -m display --focus last && yabai -m window --focus last)
+default 	             	< cmd - right			  : yabai -m window --focus east \
+							                                || (yabai -m display --focus first && yabai -m window --focus first)
+default			            < cmd - down        : yabai -m window --focus stack.next || yabai -m window --focus south
+default 		            < cmd - up          : yabai -m window --focus stack.prev || yabai -m window --focus north
 
-# focus monitor cycle around
-default, focus, resize, warp < shift + cmd - left  :  yabai -m display --focus prev \
-  || (yabai -m display --focus last || yabai -m display --focus first)
-default, focus, resize, warp < shift + cmd - right  :  yabai -m display --focus next \
-  || (yabai -m display --focus first || yabai -m display --focus last)
+# Pass command to swap desktop to MacOs
+default 		            < ctrl - left    -> : ;
+default 		            < ctrl - right   -> : ;
 
-focus, resize, warp < space                 :  yabai -m space --rotate 90                 # rotate tree
-focus, resize, warp < shift - space         :  yabai -m space --rotate 270                # rotate tree
-focus, resize, warp < f                     :  yabai -m window --toggle zoom-fullscreen # toggle window native fullscreen
-focus, resize, warp < d                     :  yabai -m window --toggle zoom-parent       # toggle window parent zoom
-focus, resize, warp < s                     :  yabai -m window --toggle split             # toggle window split type
-focus, resize, warp < g                     :  yabai -m window --toggle float;\
-                                               yabai -m window --grid 6:6:1:1:4:4         # Float a centered window
-focus, resize, warp < q                     :  yabai -m space --balance                   # equalize size of windows
-focus, resize, warp < i                     :  yabai -m window --insert stack
-# change layout of desktop: m ,
-focus, resize, warp < m                     :  yabai -m space --layout bsp;\
-                                               open -g "hammerspoon://cmenu"
-focus, resize, warp < 0x2B                  :  yabai -m space --layout float;\
-                                               open -g "hammerspoon://cmenu"
+# switch window type between tiling and floating
+default			            < cmd - m			      : [ "$(yabai -m query --spaces --space | jq .type) = "bsp" ] \
+                              							  && yabai -m space --layout float \
+                              							  || yabai -m space --layout bsp
+# Focus workspace (needs yabai-sa)
+default			            < cmd - 1			      : yabai -m space --focus 1
+default			            < cmd - 2			      : yabai -m space --focus 2
+default			            < cmd - 3			      : yabai -m space --focus 3
+default			            < cmd - 4			      : yabai -m space --focus 4
+default			            < cmd - 5			      : yabai -m space --focus 5
+default			            < cmd - 6			      : yabai -m space --focus 6
+default			            < cmd - 7			      : yabai -m space --focus 7
+default			            < cmd - 8		       	: yabai -m space --focus 8
+default			            < cmd - 9		       	: yabai -m space --focus 9
+default			            < cmd - 0		       	: yabai -m space --focus 10
 
-# Turn on and off border: b
-focus, resize, warp < b                     : [ "$(yabai -m config window_border)" = "on" ] && yabai -m config window_border off || yabai -m config window_border on 
+# Toggle window gaps
+resize			            < v				          : yabai -m space --toggle padding; yabai -m space --toggle gap
 
+# Toggle border
+resize			            < b				          : [ "$(yabai -m config window_border)" = "on" ] \
+							                                && yabai -m config window_border off \
+							                                || yabai -m config window_border on
+# toggle fullscreen
+resize                              < f                                   : yabai -m window --toggle zoom-fullscreen
+# Balance windows
+resize			            < q				          : yabai -m space --balance
 
-# create desktop and follow focus - uses jq for parsing json (brew install jq)
-focus, resize, warp < n                     :  yabai -m space --create && \
-                                               index="$(yabai -m query --spaces --display | jq 'map(select(."native-fullscreen" == 0))[-1].index')" && \
-                                               yabai -m space --focus "${index}"
-# destroy desktop
-focus, resize, warp < shift - n             :  index="$(yabai -m query --spaces --space | jq .index)" && \
-                                               yabai -m space --destroy && \
-                                               yabai -m space --focus "$(($index-1))"
+# rotate subtree
+resize			            < s				          : yabai -m window --toggle split
 
-# Toggle gaps/padding: v
-focus, resize, warp < v                     :  yabai -m space --toggle padding; yabai -m space --toggle gap
+# resize window
+resize 			            < left				      : yabai -m window --resize left:-10:0 || yabai -m window --resize right:-10:0
+resize 			            < right				      : yabai -m window --resize right:10:0 || yabai -m window --resize left:10:0
+resize 			            < up				        : yabai -m window --resize top:0:-10 || yabai -m window --resize bottom:0:-10
+resize 			            < down				      : yabai -m window --resize bottom:0:10 || yabai -m window --resize top:0:10
 
-# stack window
-focus < alt - left  : yabai -m window west --stack $(yabai -m query --windows --window | jq -r '.id')
-focus < alt - right : yabai -m window east --stack $(yabai -m query --windows --window | jq -r '.id')
-focus < alt - down  : yabai -m window south --stack $(yabai -m query --windows --window | jq -r '.id')
-focus < alt - up    : yabai -m window north --stack $(yabai -m query --windows --window | jq -r '.id')
+# rotate windows
+resize			           < space				      : yabai -m space --rotate 90
+resize			           < shift - space			: yabai -m space --rotate 270
 
-# swap window
-focus < left                                :  yabai -m window --swap west
-focus < down                                :  yabai -m window --swap south
-focus < up                                  :  yabai -m window --swap north
-focus < right                               :  yabai -m window --swap east
-focus < return                              :  yabai -m window --swap largest
+# swap windows
+move			             < left				        : yabai -m window --warp west
+move			             < right				      : yabai -m window --warp east
+move			             < up				          : yabai -m window --warp north
+move			             < down				        : yabai -m window --warp south
+move		             	 < g				          : yabai -m window --warp largest
 
-# send window to monitor and follow focus
-focus < tab                                 :  yabai -m window --display next; yabai -m display --focus next
-focus < shift - tab                         :  yabai -m window --display prev; yabai -m display --focus prev
-focus < 1                                   :  yabai -m window --display 1; yabai -m display --focus 1
-focus < 2                                   :  yabai -m window --display 2; yabai -m display --focus 2
-focus < 3                                   :  yabai -m window --display 3; yabai -m display --focus 3
+# move window to workspace
+move			             < 1				          : yabai -m window --space 1
+move			             < 2				          : yabai -m window --space 2
+move			             < 3				          : yabai -m window --space 3
+move			             < 4				          : yabai -m window --space 4
+move			             < 5			          	: yabai -m window --space 5
+move			             < 6				          : yabai -m window --space 6
+move			             < 7				          : yabai -m window --space 7
+move			             < 8				          : yabai -m window --space 8
+move			             < 9				          : yabai -m window --space 9
+move			             < 0				          : yabai -m window --space 0
 
-# send window to monitor and dont follow focus
-focus < alt - tab                           :  yabai -m window --display next
-focus < alt + shift - tab                   :  yabai -m window --display prev
-focus < alt - 1                             :  yabai -m window --display 1
-focus < alt - 2                             :  yabai -m window --display 2
-focus < alt - 3                             :  yabai -m window --display 3
+# move window to workspace and follow
+move			             < shift - 1			    : yabai -m window --space 1
+move			             < shift - 2			    : yabai -m window --space 2
+move			             < shift - 3			    : yabai -m window --space 3
+move			             < shift - 4		      : yabai -m window --space 4
+move			             < shift - 5			    : yabai -m window --space 5
+move			             < shift - 6			    : yabai -m window --space 6
+move			             < shift - 7			    : yabai -m window --space 7
+move			             < shift - 8			    : yabai -m window --space 8
+move			             < shift - 9			    : yabai -m window --space 9
+move			             < shift - 0			    : yabai -m window --space 0
 
-# move window
-warp < left                                 :  yabai -m window --warp west
-warp < down                                 :  yabai -m window --warp south
-warp < up                                   :  yabai -m window --warp north
-warp < right                                :  yabai -m window --warp east
-warp < return                               :  yabai -m window --warp largest
-
-# send window to desktop
-warp < tab                                  :  yabai -m window --space next
-warp < shift - tab                          :  yabai -m window --space prev
-warp < 1                                    :  yabai -m window --space 1
-warp < 2                                    :  yabai -m window --space 2
-warp < 3                                    :  yabai -m window --space 3
-warp < 4                                    :  yabai -m window --space 4
-warp < 5                                    :  yabai -m window --space 5
-warp < 6                                    :  yabai -m window --space 6
-warp < 7                                    :  yabai -m window --space 7
-warp < 8                                    :  yabai -m window --space 8
-warp < 9                                    :  yabai -m window --space 9
-warp < 0                                    :  yabai -m window --space 10
-
-# increase region size
-resize < left                               :  yabai -m window --resize left:-30:0
-resize < down                               :  yabai -m window --resize bottom:0:30
-resize < up                                 :  yabai -m window --resize top:0:-30
-resize < right                              :  yabai -m window --resize right:30:0
-
-# decrease region size
-resize < shift - right                      :  yabai -m window --resize left:30:0
-resize < shift - up                         :  yabai -m window --resize bottom:0:-30
-resize < shift - down                       :  yabai -m window --resize top:0:30
-resize < shift - left                       :  yabai -m window --resize right:-30:0
-
+# move to next display
+move			             < tab				        : yabai -m display --space next
+move			             < shift - tab			  : yabai -m display --space prev

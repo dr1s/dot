@@ -38,7 +38,7 @@ end)
 --- yabai/hammerspoon menu
 yabai = '/usr/local/bin/yabai'
 
-menu = hs.menubar.new()
+--- menu = hs.menubar.new()
 
 function yabaiSwitchMode(yabai_mode)
   if yabai_mode == "bsp" then
@@ -54,7 +54,7 @@ hs.autoLaunch(true)
 hs.automaticallyCheckForUpdates(true)
 hs.consoleOnTop(true)
 hs.dockIcon(false)
-hs.menuIcon(true)
+hs.menuIcon(false)
 hs.uploadCrashData(false)
 hs.alert.show('Config loaded!')
 

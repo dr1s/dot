@@ -10,12 +10,16 @@ bspc config border_width         2
 bspc config focused_border_color \#D19A66
 bspc config normal_border_color \#505050
 bspc config window_gap          20
-bspc config top_padding		34
+bspc config top_padding		30
 bspc config -m DP-2 top_padding	0
+bspc config -m DP-2 window_gap  0
+bspc config -m DP-0 window_gap  0
 bspc config split_ratio          0.52
 bspc config borderless_monocle   false
 bspc config gapless_monocle      false
 
+
+bspc rule -a Ferdium desktop='^6' follow=off -o
 
 
 # Run sxkhd

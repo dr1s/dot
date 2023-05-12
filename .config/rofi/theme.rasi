@@ -9,20 +9,20 @@
 
 /*****----- Configuration -----*****/
 configuration {
-	modi:                       "drun,window";
+    modi:                       "drun,window";
     show-icons:                 true;
     display-drun:               "";
-	drun-display-format:        "{name}";
+    drun-display-format:        "{name}";
 }
 
 /*****----- Global Properties -----*****/
 * {
-    background:     #2E3440FF;
-    background-alt: #383E4AFF;
-    foreground:     #E5E9F0FF;
-    selected:       #81A1C1FF;
-    active:         #A3BE8CFF;
-    urgent:         #BF616AFF;
+    background:     #2A2A2AFF;
+    background-alt: #373737FF;
+    foreground:     #FFFFFFFF;
+    selected:       #696969FF;
+    active:         #363636FF;
+    urgent:         #363636FF;
     font: "SFMono Nerd Font Mono 10"; 
 }
 

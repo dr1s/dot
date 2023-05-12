@@ -22,6 +22,8 @@ super + q
 # focus window and switch monitor
 super + {Left,Down,Up,Right}
 	bspc node -f {west,south,north,east} || bspc node -f {prev,prev,next,next}
+super + {h,j,k,l}
+	bspc node -f {west,south,north,east} || bspc node -f {prev,prev,next,next}
 
 # Workspaces
 # prev/next
@@ -31,17 +33,13 @@ ctrl + {Left,Right}
 ctrl + {0-9}
 	bspc desktop -f {0-9}
 
-# switch to fullscreen/monocle mode
-super + f
-	bspc desktop -l next
-
 # switch between default and floating mode
 super + m
 	bspc query -N -n "focused.tiled" 1>/dev/null  && bspc node -t floating || bspc node -t tiled
 
 # Resize Mode
 # Windows
-super + d : {Left,Down,Up,Right}
+alt + d : {Left,Down,Up,Right}
 	n=10; \
   	{ d1=left;   d2=right;  dx=-$n; dy=0;   \
  	, d1=bottom; d2=top;    dx=0;   dy=$n;  \
@@ -51,38 +49,42 @@ super + d : {Left,Down,Up,Right}
 	bspc node --resize $d1 $dx $dy || bspc node --resize $d2 $dx $dy
 
 # Toggle gaps for desktop
-super + d : v
-	[ $(bspc config window_gap) -eq 0 ] \
+alt + d : v
+	[ $(bspc config -d "$(bspc query -D -d focused --names)" window_gap) -eq 0 ] \
 	&& bspc config -d "$(bspc query -D -d focused --names)" window_gap "$(grep window_gap $HOME/.config/bspwm/bspwmrc | awk '\{print $4\}')" \
-	|| bspc config window_gap 0
+	|| bspc config -d "$(bspc query -D -d focused --names)" window_gap 0
 
 # Toggle border
-super + d : b
+alt + d : b
 	[ $(bspc config border_width) -eq 0 ] \
 	&& bspc config border_width "$(grep border_width $HOME/.config/bspwm/bspwmrc | awk '\{print $4 \}')" \
 	|| bspc config border_width 0
 
+# switch to fullscreen/monocle mode
+alt + d : f
+	bspc desktop -l next
+
 # Balance desktop evenly
-super + d : q:
+alt + d : q:
 	bspc node @/ -B
 
 # rotate desktop 90°/270°
-super + d : space:
+alt + d : space:
 	bspc node @/ -R 90
-super + d : shift + space:
+alt + d : shift + space:
 	bspc node @/ -R 270
 
 # split/rotate parent
-super + d : s:
+alt + d : s:
 	bspc node '@parent' -y next
 
 # Move mode
 # swap windows
-super + s : {Left,Down,Up,Right}:
+alt + s : {Left,Down,Up,Right}:
 	bspc node -s {west,south,north,east}
 
 # move window to desktop
-super + s : {0-9}:
+alt + s : {0-9}:
 	bspc node -d {0-9}
-super + s : shift + {0-9}:
+alt + s : shift + {0-9}:
 	bspc node -d {0-9} -f

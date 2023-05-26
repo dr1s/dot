@@ -120,6 +120,8 @@ eval "$(pyenv init -)"
 
 export PATH="/usr/local/sbin:$PATH"
 
+[ $(uname) = "Linux" ] && export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/ssh-agent.socket"
+
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 [ -f ~/.config/zsh/functions.zsh ] && source ~/.config/zsh/functions.zsh
@@ -155,9 +157,6 @@ my-accept-line () {
 }
 zle -N accept-line my-accept-line
 
-if [ -n "$(ioreg -p IOUSB -w0 | sed 's/[^o]*o //; s/@.*$//' | grep -v '^Root.*' | grep Yubikey)" ]; then
-  export SSH_AUTH_SOCK="/usr/local/var/run/yubikey-agent.sock"
-fi
 
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /usr/local/bin/grr grr

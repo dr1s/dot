@@ -66,27 +66,35 @@ resize			            < s				          : yabai -m window --toggle split
 
 # resize window
 resize 			            < left				      : yabai -m window --resize left:-10:0 || yabai -m window --resize right:-10:0
+resize 			            < h 				      : yabai -m window --resize left:-10:0 || yabai -m window --resize right:-10:0
 resize 			            < right				      : yabai -m window --resize right:10:0 || yabai -m window --resize left:10:0
-resize 			            < up				        : yabai -m window --resize top:0:-10 || yabai -m window --resize bottom:0:-10
+resize 			            < l					      : yabai -m window --resize right:10:0 || yabai -m window --resize left:10:0
+resize 			            < up				      : yabai -m window --resize top:0:-10 || yabai -m window --resize bottom:0:-10
+resize 			            < k	        			      : yabai -m window --resize top:0:-10 || yabai -m window --resize bottom:0:-10
 resize 			            < down				      : yabai -m window --resize bottom:0:10 || yabai -m window --resize top:0:10
+resize 			            < j 				      : yabai -m window --resize bottom:0:10 || yabai -m window --resize top:0:10
 
 # rotate windows
 resize			           < space				      : yabai -m space --rotate 90
 resize			           < shift - space			: yabai -m space --rotate 270
 
 # swap windows
-move			             < left				        : yabai -m window --warp west
-move			             < right				      : yabai -m window --warp east
+move			             < left				          : yabai -m window --warp west
+move			             < h				          : yabai -m window --warp west
+move			             < right				          : yabai -m window --warp east
+move			             < l				          : yabai -m window --warp east
 move			             < up				          : yabai -m window --warp north
-move			             < down				        : yabai -m window --warp south
-move		             	 < g				          : yabai -m window --warp largest
+move			             < k				          : yabai -m window --warp north
+move			             < down				          : yabai -m window --warp south
+move			             < j				          : yabai -m window --warp south
+move		             	     < g				          : yabai -m window --warp largest
 
 # move window to workspace
 move			             < 1				          : yabai -m window --space 1
 move			             < 2				          : yabai -m window --space 2
 move			             < 3				          : yabai -m window --space 3
 move			             < 4				          : yabai -m window --space 4
-move			             < 5			          	: yabai -m window --space 5
+move			             < 5     			          	  : yabai -m window --space 5
 move			             < 6				          : yabai -m window --space 6
 move			             < 7				          : yabai -m window --space 7
 move			             < 8				          : yabai -m window --space 8

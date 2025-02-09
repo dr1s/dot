@@ -1,3 +1,5 @@
+#zmodload zsh/zprof
+
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 DISABLE_MAGIC_FUNCTIONS=true
@@ -73,9 +75,10 @@ plugins=(
   pass
   brew
   python
-  docker
   autojump
   rust
+  fzf-zsh-plugin
+  fzf-tab
 )
 source $ZSH/oh-my-zsh.sh
 # User configuration
@@ -123,6 +126,8 @@ export PATH="/usr/local/sbin:$PATH"
 [ $(uname) = "Linux" ] && export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/ssh-agent.socket"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[ -f /usr/share/fzf/key-bindings.zsh ] && source /usr/share/fzf/key-bindings.zsh
+[ -f /usr/share/fzf/completion.zsh ] && soruce /usr/share/fzf/completion.zsh
 
 [ -f ~/.config/zsh/functions.zsh ] && source ~/.config/zsh/functions.zsh
 [ -f ~/.config/zsh/aliases.zsh ] && source ~/.config/zsh/aliases.zsh
@@ -160,3 +165,13 @@ zle -N accept-line my-accept-line
 
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /usr/local/bin/grr grr
+export LIBRARY_PATH=$LIBRARY_PATH:/opt/homebrew/opt/openssl/lib/
+
+#export NVM_DIR="$HOME/.nvm"
+#[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+#[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+
+#zprof
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/drs/.cache/lm-studio/bin"

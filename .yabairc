@@ -27,33 +27,5 @@ yabai -m config window_gap                   20
 #yabai -m config active_window_border_color   0xffd19a66
 #yabai -m config normal_window_border_color   0xff505050
 
-yabai -m space 1 --label email
-yabai -m rule --add app="Thunderbird" space=^"email"
-
-yabai -m space 2 --label messenger
-yabai -m rule --add app="Ferdium" space=^"messenger"
-yabai -m rule --add app="Mattermost" space=^"messenger"
-yabai -m rule --add app="Teams" space=^"messenger"
-
-yabai -m space 3 --label web
-yabai -m rule --add app="Firefox" space=^"web"
-yabai -m rule --add app="Firefox Developer Edition" space=^"web"
-yabai -m rule --add app="Google Chrome" space=^"web"
-yabai -m rule --add app="Safari" space=^"web"
-
-yabai -m space 4 --label code
-yabai -m rule --add app="Pulsar" space=^"code"
-
-yabai -m space 8 --label vcs
-#yabai -m config --space 8 window_border off
-#yabai -m config --space 8 layout float
-yabai -m rule --add app="Fork" space=^"vcs"
-
-yabai -m space 9 --label media
-yabai -m rule --add app="Plex" space=^"media"
-yabai -m rule --add app="PlexMobile" space=^"media"
-yabai -m rule --add app="VLC" space=^"media"
-yabai -m rule --add app="Spotify" space=^"media"
-
 borders active_color=0xffd19a66 inactive_color=0xff505050 width=2.0 &
 

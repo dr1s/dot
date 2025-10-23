@@ -1,14 +1,11 @@
 # the default mode
-:: default : echo "" > /tmp/current_skhd_mode; \
-             open -g "hammerspoon://skhd_mode";
+:: default : echo "" > /tmp/current_skhd_mode;
 
 # a mode for move operations
-:: move @ : echo "focus" > /tmp/current_skhd_mode; \
-             open -g "hammerspoon://skhd_mode?mode=focus"
+:: move @ : echo "focus" > /tmp/current_skhd_mode;
 
 # a mode for resizing operations
-:: resize @ : echo "resize" > /tmp/current_skhd_mode; \
-              open -g "hammerspoon://skhd_mode?mode=resize"
+:: resize @ : echo "resize" > /tmp/current_skhd_mode; 
 
 # Modes (default, resize, move/focus)
 # enter and exit modes
@@ -22,12 +19,12 @@ default 		            < cmd - return			: [ -z "$(pgrep alacritty)" ] \
 									  || /Applications/Alacritty.app/Contents/MacOS/alacritty msg create-window
 
 # focus window left and down cycles, this is dependent on the monitor order beeing correct
-default                 < cmd - left    		: yabai -m window --focus west \
-                                              || (yabai -m display --focus last && yabai -m window --focus last)
-default 	             	< cmd - right			  : yabai -m window --focus east \
-							                                || (yabai -m display --focus first && yabai -m window --focus first)
-default			            < cmd - down        : yabai -m window --focus stack.next || yabai -m window --focus south
-default 		            < cmd - up          : yabai -m window --focus stack.prev || yabai -m window --focus north
+default                 	    < cmd - left    		: yabai -m window --focus west \
+                                              			  || (yabai -m display --focus last && yabai -m window --focus last)
+default 	             	    < cmd - right		: yabai -m window --focus east \
+							              || (yabai -m display --focus first && yabai -m window --focus first)
+default			            < cmd - down        	: yabai -m window --focus stack.next || yabai -m window --focus south
+default 		            < cmd - up          	: yabai -m window --focus stack.prev || yabai -m window --focus north
 
 # Pass command to swap desktop to MacOs
 default 		            < ctrl - left    -> : ;

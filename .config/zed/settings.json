@@ -1,0 +1,47 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run the `open default settings` command
+// from the command palette or from `Zed` application menu.
+{
+  "ui_font_family": "SF Pro Display",
+  "buffer_font_family": "SFMono Nerd Font",
+  "cli_default_open_behavior": "existing_window",
+  "agent_servers": {
+    "OpenCode": {
+      "type": "custom",
+      "command": "/Users/drs/bin/opencode-podman",
+      "args": ["acp"],
+    }
+  },
+  "project_panel": {
+    "dock": "right"
+  },
+  "outline_panel": {
+    "dock": "right"
+  },
+  "collaboration_panel": {
+    "dock": "right"
+  },
+  "git_panel": {
+    "dock": "right"
+  },
+  "format_on_save": "off",
+  "auto_indent": "syntax_aware",
+  "ui_font_size": 12,
+  "buffer_font_size": 13.0,
+  "theme": {
+    "mode": "system",
+    "light": "macOS Classic Light",
+    "dark": "macOS Classic Dark"
+  },
+  "language_models": {
+    "opencode": {
+      "show_free_models": true,
+      "show_zen_models": false
+    },
+  }
+}

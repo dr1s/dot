@@ -1,5 +1,3 @@
-#zmodload zsh/zprof
-
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 DISABLE_MAGIC_FUNCTIONS=true
@@ -30,7 +28,7 @@ ZSH_THEME="risto"
 # HYPHEN_INSENSITIVE="true"
 
 # Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
+DISABLE_AUTO_UPDATE="true"
 
 # Uncomment the following line to change how often to auto-update (in days).
 # export UPDATE_ZSH_DAYS=13
@@ -70,18 +68,11 @@ ZSH_THEME="risto"
 # Add wisely, as too many plugins slow down shell startup.
 
 plugins=(
-  git
-  macos
-  pass
-  brew
-  python
-  autojump
-  rust
-  fzf-zsh-plugin
-  fzf-tab
 )
+
 source $ZSH/oh-my-zsh.sh
 # User configuration
+
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
@@ -109,69 +100,31 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-export PATH="/usr/local/opt/openssl/bin:$PATH"
-export PATH="/usr/local/opt/binutils/bin:$PATH"
-export PATH="/usr/local/opt/make/libexec/gnubin:$PATH"
-export PATH="/usr/local/opt/unzip/bin:$PATH"
-export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
-export PATH="/usr/local/opt/jpeg-turbo/bin:$PATH"
 
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init --path)"
 eval "$(pyenv init -)"
+eval "$(fzf --zsh)"
+eval "$(zoxide init zsh)"
+alias j='z'
 
 export PATH="/usr/local/sbin:$PATH"
 
 [ $(uname) = "Linux" ] && export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/ssh-agent.socket"
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-[ -f /usr/share/fzf/key-bindings.zsh ] && source /usr/share/fzf/key-bindings.zsh
-[ -f /usr/share/fzf/completion.zsh ] && soruce /usr/share/fzf/completion.zsh
-
-[ -f ~/.config/zsh/functions.zsh ] && source ~/.config/zsh/functions.zsh
-[ -f ~/.config/zsh/aliases.zsh ] && source ~/.config/zsh/aliases.zsh
 [ -f ~/.config/zsh/secrets.zsh ] && source ~/.config/zsh/secrets.zsh
-[ -f $HOME/.cargo/venv ] && source $HOME/.cargo/env
 
 
-
-my-accept-line () {
-  if [ -n "$BUFFER" ]; then
-    app=$(echo "$BUFFER" | awk '{print $1}')
-    envs=""
-    venv_dir="$HOME/.pyenv/versions"
-    if [ -f "$HOME/.pyenv/shims/$app" ]; then
-      if [ ! -f "$venv_dir/$PYENV_VERSION/bin/$app" ]; then
-        versions="$(pyenv versions | tr -d '[[:blank:]]' | grep -E '(^[2-3])|(envs)')"
-        for v in ${=versions}; do
-          if [ -f "$venv_dir/$v/bin/$app" ]; then
-            envs="$(basename $v) (Python $(echo $v | cut -d/ -f1))\n$envs"
-          fi
-        done
-        if [ "$(echo $envs | wc -l)" -eq 2 ]; then
-          pyenv shell "$(echo $envs | head -1 | awk '{print $1}')"
-        else
-          venv="$(echo $envs | head -n -1 | fzf --prompt='Select virtualenv: ' | awk '{print $1}')"
-          pyenv shell "$venv"
-        fi
-      fi
-    fi
-  fi
-  zle .accept-line
-}
-zle -N accept-line my-accept-line
-
-
-autoload -U +X bashcompinit && bashcompinit
-complete -o nospace -C /usr/local/bin/grr grr
+#autoload -U +X bashcompinit && bashcompinit
 export LIBRARY_PATH=$LIBRARY_PATH:/opt/homebrew/opt/openssl/lib/
 
-#export NVM_DIR="$HOME/.nvm"
-#[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
-#[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+# Detect macOS theme and set Alacritty color theme
+if [ $(uname) = "Darwin" ]; then
+	local APPEARANCE=$(defaults read -g AppleInterfaceStyle 2>/dev/null || echo "Light")
+fi
 
-#zprof
-
-# Added by LM Studio CLI (lms)
-export PATH="$PATH:/Users/drs/.cache/lm-studio/bin"
+if [ "${APPEARANCE:-Dark}" = "Dark" ]; then
+  ln -sf ~/.config/alacritty/themes/dark.toml ~/.config/alacritty/color_theme.toml
+else
+  ln -sf ~/.config/alacritty/themes/light.toml ~/.config/alacritty/color_theme.toml
+fi

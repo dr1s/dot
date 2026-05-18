@@ -73,6 +73,12 @@ plugins=(
 source $ZSH/oh-my-zsh.sh
 # User configuration
 
+# Plugins
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+eval "$(fzf --zsh)"
+eval "$(zoxide init zsh)"
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
@@ -100,13 +106,11 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
-eval "$(fzf --zsh)"
-eval "$(zoxide init zsh)"
 alias j='z'
+alias ncdu='gdu-go'
+alias df='duf'
+
+
 
 export PATH="/usr/local/sbin:$PATH"
 

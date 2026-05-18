@@ -1,0 +1,33 @@
+
+[general]
+import = ["~/.config/alacritty/color_theme.toml"]
+live_config_reload = true
+
+[font]
+size = 12
+
+[font.bold]
+family = "SFMono Nerd Font"
+style = "Bold"
+
+[font.bold_italic]
+family = "SFMono Nerd Font"
+style = "Bold Italic"
+
+[font.italic]
+family = "SFMono Nerd Font"
+style = "Italic"
+
+[font.normal]
+family = "SFMono Nerd Font"
+style = "Regular"
+
+[scrolling]
+history = 10000
+
+[window]
+decorations = "buttonless"
+
+[window.padding]
+x = 8
+y = 8

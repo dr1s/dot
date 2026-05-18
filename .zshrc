@@ -73,6 +73,8 @@ plugins=(
 source $ZSH/oh-my-zsh.sh
 # User configuration
 
+[ $(uname) = "Linux" ] && [ -f /home/linuxbrew/.linuxbrew/bin/brew ] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv bash)"
+
 # Plugins
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"

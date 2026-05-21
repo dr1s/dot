@@ -71,9 +71,29 @@ plugins=(
 )
 
 source $ZSH/oh-my-zsh.sh
+
 # User configuration
 
-[ $(uname) = "Linux" ] && [ -f /home/linuxbrew/.linuxbrew/bin/brew ] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv bash)"
+# Linux specific settings
+if [ $(uname) = "Linux" ]; then
+    [ -f /home/linuxbrew/.linuxbrew/bin/brew ] && \
+        eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv bash)"
+    export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/ssh-agent.socket"
+fi
+
+# macOS specific settings
+if [ $(uname) = "Darwin" ]; then
+    export PATH="/usr/local/sbin:$PATH"
+    export LIBRARY_PATH=$LIBRARY_PATH:/opt/homebrew/opt/openssl/lib/
+
+    local APPEARANCE=$(defaults read -g AppleInterfaceStyle 2>/dev/null || echo "Light")
+    if [ "${APPEARANCE:-Dark}" = "Dark" ]; then
+        ln -sf ~/.config/alacritty/themes/dark.toml ~/.config/alacritty/color_theme.toml
+    else
+        ln -sf ~/.config/alacritty/themes/light.toml ~/.config/alacritty/color_theme.toml
+    fi
+fi
+
 export FZF_CTRL_R_OPTS="--with-nth 2.. --layout reverse"
 
 # Plugins
@@ -113,25 +133,4 @@ alias j='z'
 alias ncdu='gdu-go'
 alias df='duf'
 
-
-
-export PATH="/usr/local/sbin:$PATH"
-
-[ $(uname) = "Linux" ] && export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/ssh-agent.socket"
-
 [ -f ~/.config/zsh/secrets.zsh ] && source ~/.config/zsh/secrets.zsh
-
-
-#autoload -U +X bashcompinit && bashcompinit
-export LIBRARY_PATH=$LIBRARY_PATH:/opt/homebrew/opt/openssl/lib/
-
-# Detect macOS theme and set Alacritty color theme
-if [ $(uname) = "Darwin" ]; then
-	local APPEARANCE=$(defaults read -g AppleInterfaceStyle 2>/dev/null || echo "Light")
-fi
-
-if [ "${APPEARANCE:-Dark}" = "Dark" ]; then
-  ln -sf ~/.config/alacritty/themes/dark.toml ~/.config/alacritty/color_theme.toml
-else
-  ln -sf ~/.config/alacritty/themes/light.toml ~/.config/alacritty/color_theme.toml
-fi

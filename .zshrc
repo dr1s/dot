@@ -74,6 +74,7 @@ source $ZSH/oh-my-zsh.sh
 # User configuration
 
 [ $(uname) = "Linux" ] && [ -f /home/linuxbrew/.linuxbrew/bin/brew ] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv bash)"
+export FZF_CTRL_R_OPTS="--with-nth 2.. --layout reverse"
 
 # Plugins
 export PYENV_ROOT="$HOME/.pyenv"

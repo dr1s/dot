@@ -95,6 +95,7 @@ if [ $(uname) = "Darwin" ]; then
 fi
 
 export FZF_CTRL_R_OPTS="--with-nth 2.. --layout reverse"
+export HOMEBREW_NO_ENV_HINTS=1
 
 # Plugins
 export PYENV_ROOT="$HOME/.pyenv"

@@ -80,6 +80,7 @@ if [ $(uname) = "Linux" ]; then
         eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv bash)"
     export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/ssh-agent.socket"
     export PODMAN_COMPOSE_WARNING_LOGS=false
+    export PODMAN_COMPOSE_PROVIDER=/home/linuxbrew/.linuxbrew/bin/podman-compose
     export DOCKER_HOST=unix:///run/user/1000/podman/podman.sock
 fi
 

@@ -27,5 +27,5 @@ yabai -m config window_gap                   18
 #yabai -m config active_window_border_color   0xffd19a66
 #yabai -m config normal_window_border_color   0xff505050
 
-borders active_color=0xff007aff inactive_color=0xff505050 width=2.0 &
+borders active_color=0xff007aff inactive_color=0xff505050 width=2.0 style=round hidpi=on &
 

@@ -82,7 +82,6 @@ if [ $(uname) = "Linux" ]; then
     export PODMAN_COMPOSE_WARNING_LOGS=false
     export PODMAN_COMPOSE_PROVIDER=/home/linuxbrew/.linuxbrew/bin/podman-compose
     export DOCKER_HOST=unix:///run/user/1000/podman/podman.sock
-    source /home/linuxbrew/.linuxbrew/opt/autoenv/activate.sh
 fi
 
 # macOS specific settings
@@ -96,7 +95,6 @@ if [ $(uname) = "Darwin" ]; then
     else
         ln -sf ~/.config/alacritty/themes/light.toml ~/.config/alacritty/color_theme.toml
     fi
-    source /opt/homebrew/opt/autoenv/activate.sh
 fi
 
 export FZF_CTRL_R_OPTS="--with-nth 2.. --layout reverse"
@@ -108,6 +106,8 @@ export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 eval "$(fzf --zsh)"
 eval "$(zoxide init zsh)"
+
+export PATH="${HOME}/.local/bin:${PATH}"
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
@@ -140,11 +140,3 @@ alias ncdu='gdu-go'
 alias df='duf'
 
 [ -f ~/.config/zsh/secrets.zsh ] && source ~/.config/zsh/secrets.zsh
-
-cd () {
-  if [[ $# -gt 0 ]] && declare -F autoenv_cd >/dev/null; then
-	autoenv_cd "${@}"
-  else
-	builtin cd "${@}"
-  fi
-}

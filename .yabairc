@@ -16,16 +16,10 @@ yabai -m config mouse_action2                resize
 
 # general space settings
 yabai -m config layout                       bsp
-yabai -m config top_padding                  18
-yabai -m config bottom_padding               18
-yabai -m config left_padding                 18
-yabai -m config right_padding                18
-yabai -m config window_gap                   18
+yabai -m config top_padding                  0
+yabai -m config bottom_padding               0
+yabai -m config left_padding                 0
+yabai -m config right_padding                0
+yabai -m config window_gap                   6
 
-#yabai -m config window_border                on
-#yabai -m config window_border_width          2
-#yabai -m config active_window_border_color   0xffd19a66
-#yabai -m config normal_window_border_color   0xff505050
-
-borders active_color=0xff007aff inactive_color=0xff505050 width=2.0 style=round hidpi=on &
-
+borders active_color=0xff3578f6 inactive_color=0xff505050 width=5.0 style=round hidpi=on &
